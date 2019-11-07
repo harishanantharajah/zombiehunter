@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Zombie Game</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+    <img id="zombie" width="150" height="150">
+    <h2 id = "score"></h2>
+    <h1 id="name">Zombie Hunter Beta</h1>
+    <input id="reset" value="Reset" type="button">
+
+        <input id="start" value="Start" type="button">
+        <input id="mode" value="Difficulty" type="button">
+            <input id="normal" value="Normal" type="button">
+            <input id="hard" value="Hard" type="button">
+
+    <script>
+        let score = 0;
+        let speed = 0;
+        let audio = new Audio("images/damage2.mp3");
+
+        function random_pos() {
+            document.getElementById("zombie").src = "./images/zombie.png";
+            let width = Math.random() * (window.innerWidth - 150);
+            let height = Math.random() * (window.innerHeight - 150);
+            
+            document.getElementById("zombie").style.position = "absolute";
+            document.getElementById("zombie").style.left = width  + "px";
+            document.getElementById("zombie").style.top = height + "px";
+
+        }
+        function dead() {
+            document.getElementById("zombie").src = "./images/explosion.gif";
+            audio.play();
+            score += 1;
+            document.getElementById("score").innerHTML = "Score: " + score;
+        }
+
+        function setup() {
+            setInterval(random_pos, speed)
+            document.getElementById("reset").style.display = "block";
+            document.getElementById("zombie").style.display = "inline";
+            document.getElementById("zombie").src = "./images/zombie.png";
+            document.getElementById("score").innerHTML = "Score: " + score;
+            document.getElementById("zombie").style.position = "absolute";
+            document.getElementById("zombie").style.left = window.innerWidth / 2 + "px";
+            document.getElementById("zombie").style.top = window.innerHeight / 2 + "px";
+            document.getElementById("zombie").onclick = dead;
+        }
+
+        function start() {
+            speed = 2000;
+            setup()
+            document.getElementById("start").style.display = "none";
+            document.getElementById("mode").style.display = "none";
+            document.getElementById("name").style.display = "none";
+            document.getElementById("hard").style.display = "none";
+            document.getElementById("normal").style.display = "none";
+        }
+        function reset(){
+            score = 0;
+            document.getElementById("zombie").style.left = window.innerWidth / 2 + "px";
+            document.getElementById("zombie").style.top = window.innerHeight / 2 + "px";
+            document.getElementById("score").innerHTML = "Score: " + score;
+        }
+
+        function hard() {
+            speed = 800;
+            setup()
+            document.getElementById("normal").style.display = "none";
+            document.getElementById("hard").style.display = "none";
+            document.getElementById("name").style.display = "none";
+
+        }
+        function mode(){
+            document.getElementById("normal").style.display = "block";
+            document.getElementById("hard").style.display = "block";
+            document.getElementById("start").style.display = "none";
+            document.getElementById("mode").style.display = "none";
+
+            document.getElementById("normal").onclick = start;
+            document.getElementById("hard").onclick = hard;
+
+        }
+        document.getElementById("zombie").style.display = "none";
+        document.getElementById("start").onclick = start;
+        document.getElementById("mode").onclick = mode;
+        document.getElementById("reset").onclick = reset;
+
+
+    </script>
+
+</body>
+</html>
